@@ -20,7 +20,6 @@ pipeline {
         }
     }
     post {
-        always {
             script {
                 def buildNumber = currentBuild.number
                 def changelogUrl = "${env.JENKINS_URL}job/${env.JOB_NAME}/${buildNumber}/api/json"
@@ -51,4 +50,3 @@ pipeline {
             }
         }
     }
-}
