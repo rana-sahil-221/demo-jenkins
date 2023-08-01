@@ -16,34 +16,41 @@ pipeline {
                 ])
             }
         }
-        stage('Fetch Changelogs') {
-            steps {
-                script {
-                    def buildNumber = currentBuild.number
-                    def workspacePath = env.WORKSPACE
-                    def changelogPath = "${workspacePath}/changelog.xml"
-
-                    def changelogFile = new File(changelogPath)
-                    if (changelogFile.exists()) {
-                        def changelogContent = changelogFile.text
-                        def changelogXml = new XmlSlurper().parseText(changelogContent)
-
-                        if (changelogXml.entry) {
-                            println "Changelogs for Build #${buildNumber}:"
-                            changelogXml.entry.each { entry ->
-                                println "Commit message: ${entry.msg.text()}"
-                                println "Author: ${entry.author.fullName.text()}"
-                                println "Commit ID: ${entry.commitId.text()}"
-                                println "------------------------------------------"
-                            }
-                        } else {
-                            println "No commits yet for Build #${buildNumber}."
-                        }
-                    } else {
-                        println "No changelog.xml found in workspace for Build #${buildNumber}."
-                    }
-                }
-            }
-        }
     }
+}
+import groovy.json.JsonSlurper
+import groovy.text.SimpleTemplateEngine
+
+def jenkinsUrl = 'http://localhost:8080/' 
+def jobName = 'my-script' 
+
+
+def getChangelogForBuild(buildNumber) {
+    def changelogUrl = "${jenkinsUrl}/job/${jobName}/${buildNumber}/api/json?tree=changeSet[items[comment]]"
+    def response = new URL(changelogUrl).text
+    def jsonSlurper = new JsonSlurper()
+    def data = jsonSlurper.parseText(response)
+    return data.changeSet.items.collect { it.comment ?: 'No commit' }
+}
+
+// Function to get the latest completed build number
+def getLatestCompletedBuildNumber() {
+    def jobUrl = "${jenkinsUrl}/job/${jobName}/api/json?tree=lastCompletedBuild[number]"
+    def response = new URL(jobUrl).text
+    def jsonSlurper = new JsonSlurper()
+    def data = jsonSlurper.parseText(response)
+    return data.lastCompletedBuild.number
+}
+
+// Fetch the latest completed build number for the specified job
+def latestBuildNumber = getLatestCompletedBuildNumber()
+
+// Fetch the changelog for the latest build
+def changelog = getChangelogForBuild(latestBuildNumber)
+
+// Print the commit message or "No commit" if the changelog is empty
+if (changelog.isEmpty()) {
+    println('No commit')
+} else {
+    println(changelog.join('\n'))
 }
