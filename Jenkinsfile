@@ -39,13 +39,9 @@ pipeline {
                 if (buildInfo.changeSets && !buildInfo.changeSets.isEmpty()) {
                     println "Changelogs for Build #${buildNumber}:"
                     buildInfo.changeSets.each { changeSet ->
-                        // Check if items is not null and not empty
                         if (changeSet.items && !changeSet.items.isEmpty()) {
                             changeSet.items.each { item ->
                                 println "Commit message: ${item.msg}"
-                                println "Author: ${item.author.fullName}"
-                                println "Commit ID: ${item.commitId}"
-                                println "------------------------------------------"
                             }
                         } else {
                             println "No commits for Build #${buildNumber}."
