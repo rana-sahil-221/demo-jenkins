@@ -20,7 +20,7 @@ pipeline {
         }
     }
     post {
-        always{
+        always {
             script {
                 def buildNumber = currentBuild.number
                 def changelogUrl = "${env.JENKINS_URL}job/${env.JOB_NAME}/${buildNumber}/api/json"
@@ -35,18 +35,24 @@ pipeline {
                 def jsonSlurper = new JsonSlurper()
                 def buildInfo = jsonSlurper.parseText(response.getContent())
 
-                if (buildInfo.changeSets && buildInfo.changeSets.length > 0) {
+                // Check if changeSets is not null and not empty
+                if (buildInfo.changeSets && !buildInfo.changeSets.isEmpty()) {
                     println "Changelogs for Build #${buildNumber}:"
                     buildInfo.changeSets.each { changeSet ->
-                        changeSet.items.each { item ->
-                            println "Commit message: ${item.msg}"
-                            println "Author: ${item.author.fullName}"
-                            println "Commit ID: ${item.commitId}"
-                            println "------------------------------------------"
+                        // Check if items is not null and not empty
+                        if (changeSet.items && !changeSet.items.isEmpty()) {
+                            changeSet.items.each { item ->
+                                println "Commit message: ${item.msg}"
+                                println "Author: ${item.author.fullName}"
+                                println "Commit ID: ${item.commitId}"
+                                println "------------------------------------------"
+                            }
+                        } else {
+                            println "No commits for Build #${buildNumber}."
                         }
                     }
                 } else {
-                    println "No commits yet for Build #${buildNumber}."
+                    println "No commits for Build #${buildNumber}."
                 }
             }
         }
