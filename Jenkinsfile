@@ -77,7 +77,7 @@ pipeline {
                             short: true
                         ],
                         [
-                            title: "Changelog",
+                            title: "CHANGELOGS",
                             value: "${var}",
                             color: "good"
                         ],
@@ -105,6 +105,10 @@ pipeline {
               title: "BUILD NUMBER",
               value: "${currentBuild.number}",
               short: true
+            ],
+            [
+              title: "CHANGELOGS",
+              value: "${var}",
             ],
             [
               title: "JOB URL",
