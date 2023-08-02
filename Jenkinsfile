@@ -74,7 +74,7 @@ pipeline {
             script {
                //def commitMsg = getChangelog()
                 
-                slackSend color: "good", message: "Deployment to K8 cluster done and artifact stored!", attachments: [[
+                slackSend color: "good", message: "Pipeline with custom script ran successfully!", attachments: [[
                     color: 'good',
                     channel: '#general',
                     title: "BUILD DETAILS",
@@ -115,7 +115,7 @@ pipeline {
         }
         
       failure {
-          slackSend (color: "danger", message: "Deployment to K8 cluster failed!", attachments: [[
+          slackSend (color: "danger", message: "Pipeline failed!", attachments: [[
             color: 'danger',
             title: "BUILD DETAILS",
             fields: [[
