@@ -53,11 +53,12 @@ pipeline {
                                 changelogFile.write(commitMsg)
                             }
                         } else {
-                            varmsg = ("No commits for Build #${buildNumber}.")
+                            varmsg = "No commits for Build #${buildNumber}."
                         }
                     }
                 } else {
                      varmsg = "No commits for Build #${buildNumber}."
+                     println(varmsg)
                 }
             }
           }
