@@ -1,5 +1,6 @@
 import groovy.json.JsonSlurper
-def msg = []
+def commit = []
+def varmsg = ''
 pipeline {
     agent any
     environment {
@@ -43,15 +44,16 @@ pipeline {
                             changeSet.items.each { item ->
                                 println "Commit message: ${item.msg}"
                                   //var = "${item.msg}"
-                                   msg.add(${item.msg})
+                                   commit.add(item.msg)
                                   //println(var)
+                             def commitMsg = commit.join("\n")
                             }
                         } else {
                             println("No commits for Build #${buildNumber}.")
                         }
                     }
                 } else {
-                     msg.add("No commits for Build #${buildNumber}.")
+                     varmsg = "No commits for Build #${buildNumber}."
                 }
             }
           }
@@ -79,7 +81,7 @@ pipeline {
                         ],
                         [
                             title: "CHANGELOGS",
-                            value: msg,
+                            value: "Here are the commit messages:\n${commitMsg}"
                             color: "good"
                         ],
                         [
@@ -109,7 +111,7 @@ pipeline {
             ],
             [
               title: "CHANGELOGS",
-              value: msg,
+              value: "${varmsg}",
             ],
             [
               title: "JOB URL",
