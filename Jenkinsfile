@@ -72,7 +72,7 @@ stage('Upload to Slack') {
             when {
                 
                 expression {
-                    return readFile("${WORKSPACE}/changelog_commits.txt").contains("No commits for Build #${buildNumber}.")
+                    return readFile("${WORKSPACE}/changelog_commits.txt").contains("No commits for Build")
                 }
             }
             steps {
