@@ -48,8 +48,8 @@ pipeline {
                                    commit.add(item.msg)
                                   //println(var)
                                   commitMsg = commit.join("\n")
-                                def commitFile = new File("${WORKSPACE}/changelog_commits.txt")
-                                    commitFile.write(commitMsg)
+                                
+                                sh "echo '${commitMsg}' > ${WORKSPACE}/changelog_commits.txt"
                             }
                         } else {
                             println("No commits for Build #${buildNumber}.")
