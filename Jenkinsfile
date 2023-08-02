@@ -67,28 +67,6 @@ pipeline {
             }
           }
     }
-
-stage('Upload to Slack') {
-            when {
-                
-                expression {
-                    return readFile("${WORKSPACE}/changelog_commits.txt").contains("No commits for Build")
-                }
-            }
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'slackToken', variable: 'SLACK_TOKEN')]) {
-                        sh "curl -F \"file=@${WORKSPACE}/changelog_commits.txt\" " +
-                           "-F \"channels=#general\" " +
-                           "-F \"initial_comment=Changelog Commits for Build #${currentBuild.number}\" " +
-                           "-F \"filetype=text\" " +
-                           "https://slack.com/api/files.upload " +
-                           "-H \"Authorization: Bearer ${SLACK_TOKEN}\""
-                    }
-                }
-            }
-
-    }
     }
 
     post {
@@ -123,6 +101,7 @@ stage('Upload to Slack') {
                         ]
                     ]
                   ]]   
+          if (!varmsg.trim().equalsIgnoreCase("No commits for Build #${currentBuild.number}.")) {
            withCredentials([string(credentialsId: 'slackToken', variable: 'SLACK_TOKEN')]) {
            sh "curl -F \"file=@${WORKSPACE}/changelog_commits.txt\" " +
                "-F \"channels=#general\" " +
@@ -132,6 +111,7 @@ stage('Upload to Slack') {
                "-H \"Authorization: Bearer ${SLACK_TOKEN}\""
            }
              }
+        }
         }
         
       failure {
