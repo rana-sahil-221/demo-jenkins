@@ -43,7 +43,7 @@ pipeline {
                             changeSet.items.each { item ->
                                 //println "Commit message: ${item.msg}"
                                   def var = ${item.msg}
-                                  println(var)
+                                  println({$var})
                             }
                         } else {
                             println "No commits for Build #${buildNumber}."
