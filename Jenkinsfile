@@ -42,7 +42,7 @@ pipeline {
                         if (changeSet.items && !changeSet.items.isEmpty()) {
                             changeSet.items.each { item ->
                                 //println "Commit message: ${item.msg}"
-                                  def var = ${item.msg}
+                                  def var = "${item.msg}"
                                   println({$var})
                             }
                         } else {
