@@ -18,10 +18,9 @@ pipeline {
                 ])
             }
         }
-    }
-}
-    post {
-        always {
+
+    stage('Fethcing Changelogs') {
+          steps {
             script {
                 def buildNumber = currentBuild.number
                 def changelogUrl = "${env.JENKINS_URL}job/${env.JOB_NAME}/${buildNumber}/api/json"
@@ -35,7 +34,7 @@ pipeline {
 
                 def jsonSlurper = new JsonSlurper()
                 def buildInfo = jsonSlurper.parseText(response.getContent())
-
+                def var = ''
                 // Check if changeSets is not null and not empty
                 if (buildInfo.changeSets && !buildInfo.changeSets.isEmpty()) {
                     println "Changelogs for Build #${buildNumber}:"
@@ -43,19 +42,26 @@ pipeline {
                         if (changeSet.items && !changeSet.items.isEmpty()) {
                             changeSet.items.each { item ->
                                 //println "Commit message: ${item.msg}"
-                                  def var = "${item.msg}"
+                                  var = "${item.msg}"
                                   //println(var)
                             }
                         } else {
-                            println "No commits for Build #${buildNumber}."
+                            var = "No commits for Build #${buildNumber}."
                         }
                     }
                 } else {
                     println "No commits for Build #${buildNumber}."
                 }
+            }
+          }
+    }
+    }
+}
+
+    post {
         sucess {
+            script {
                //def commitMsg = getChangelog()
-            
                 slackSend color: "good", message: "Deployment to K8 cluster done and artifact stored!", attachments: [[
                     color: 'good',
                     channel: '#general',
@@ -85,30 +91,28 @@ pipeline {
                   ]]   
             
              }
-      
-  failure {
-      slackSend (color: "danger", message: "Deployment to K8 cluster failed!", attachments: [[
-        color: 'danger',
-        title: "BUILD DETAILS",
-        fields: [[
-          title: "User",
-          value: "${env.BUILD_USER}",
-          short: true
-        ],
-        [
-          title: "BUILD NUMBER",
-          value: "${currentBuild.number}",
-          short: true
-        ],
-        [
-          title: "JOB URL",
-          value: "${env.JOB_URL}",
-          short: true
-        ]]
-      ]]
-    )
-  }
+        }
         
-    }
-}
+      failure {
+          slackSend (color: "danger", message: "Deployment to K8 cluster failed!", attachments: [[
+            color: 'danger',
+            title: "BUILD DETAILS",
+            fields: [[
+              title: "User",
+              value: "${env.BUILD_USER}",
+              short: true
+            ],
+            [
+              title: "BUILD NUMBER",
+              value: "${currentBuild.number}",
+              short: true
+            ],
+            [
+              title: "JOB URL",
+              value: "${env.JOB_URL}",
+              short: true
+            ]]
+          ]]
+        )
+      }
     }
