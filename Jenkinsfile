@@ -95,7 +95,12 @@ pipeline {
                         ]
                     ]
                   ]]   
-            sh 'curl -F "file=@${WORKSPACE}/changelog_commits.txt" -F "channels=#general" -F "initial_comment=Changelog Commits for Build #${currentBuild.number}" https://slack.com/api/files.upload -H "Authorization: PpJwTE8v7Snh2TKrKae0CMbj"'
+           sh "curl -F \"file=@${WORKSPACE}/changelog_commits.txt\" " +
+               "-F \"channels=#general\" " +
+               "-F \"initial_comment=Changelog Commits for Build #${currentBuild.number}\" " +
+               "-F \"filetype=text\" " +
+               "https://slack.com/api/files.upload " +
+               "-H \"Authorization: Bearer PpJwTE8v7Snh2TKrKae0CMbj\""
              }
         }
         
