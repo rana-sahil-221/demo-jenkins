@@ -109,7 +109,7 @@ pipeline {
             ],
             [
               title: "CHANGELOGS",
-              value: "${var}",
+              value: "${msg}",
             ],
             [
               title: "JOB URL",
