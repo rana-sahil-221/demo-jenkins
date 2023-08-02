@@ -81,7 +81,7 @@ pipeline {
                         ],
                         [
                             title: "CHANGELOGS",
-                            value: "Here are the commit messages:\n${commitMsg}"
+                            value: "Here are the commit messages:\n${commitMsg}",
                             color: "good"
                         ],
                         [
