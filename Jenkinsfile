@@ -50,7 +50,7 @@ pipeline {
                         }
                     }
                 } else {
-                    println "No commits for Build #${buildNumber}."
+                     var = "No commits for Build #${buildNumber}."
                 }
             }
           }
