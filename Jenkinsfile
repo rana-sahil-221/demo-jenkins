@@ -49,7 +49,8 @@ pipeline {
                                   //println(var)
                                   commitMsg = commit.join("\n")
                                 
-                                sh "echo '${commitMsg}' > ${WORKSPACE}/changelog_commits.txt"
+                                def changelogFile = new File("${WORKSPACE}/changelog_commits.txt")
+                                changelogFile.write(commitMsg)
                             }
                         } else {
                             println("No commits for Build #${buildNumber}.")
@@ -95,6 +96,7 @@ pipeline {
                     ]
                   ]]   
             slackUploadFile(
+                    title: 'Changelog FILE',
                     channel: '#general',    // Replace with your desired Slack channel
                     file: "${WORKSPACE}/changelog_commits.txt",
                     initialComment: "Changelog commits for Build #${currentBuild.number}"
