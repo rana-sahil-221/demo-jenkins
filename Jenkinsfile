@@ -49,8 +49,7 @@ pipeline {
                                   //var = "${item.msg}"
                                    //commit.add(item.msg)
                                   //println(var)
-                        def changelogFile = new File("${WORKSPACE}/changelog_commits.txt")
-                        changelogFile.write(varmsg)
+                        
                                  
                             }
                         } else {
@@ -63,6 +62,8 @@ pipeline {
                      varmsg = "No commits for Build #${buildNumber}."
                      println(varmsg)
                 }
+                def changelogFile = new File("${WORKSPACE}/changelog_commits.txt")
+                        changelogFile.write(varmsg)
             }
           }
     }
@@ -71,7 +72,7 @@ stage('Upload to Slack') {
             when {
                 
                 expression {
-                    return varmsg.trim() != ''
+                    return readFile("${WORKSPACE}/changelog_commits.txt").trim() != ''
                 }
             }
             steps {
