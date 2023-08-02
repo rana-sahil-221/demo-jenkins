@@ -1,6 +1,7 @@
 import groovy.json.JsonSlurper
 def commit = []
 def varmsg = ''
+def commitMsg = ''
 pipeline {
     agent any
     environment {
@@ -46,7 +47,7 @@ pipeline {
                                   //var = "${item.msg}"
                                    commit.add(item.msg)
                                   //println(var)
-                             def commitMsg = commit.join("\n")
+                                  commitMsg = commit.join("\n")
                             }
                         } else {
                             println("No commits for Build #${buildNumber}.")
