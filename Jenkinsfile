@@ -97,7 +97,7 @@ pipeline {
                   ]]   
             slackUploadFile(
                     channel: '#general',    // Replace with your desired Slack channel
-                    file: "${WORKSPACE}/changelog_commits.txt",
+                    file: "changelog_commits.txt",
                     initialComment: "Changelog commits for Build #${currentBuild.number}"
                 )
              }
