@@ -1,5 +1,5 @@
 import groovy.json.JsonSlurper
-def var = ''
+def msg = []
 pipeline {
     agent any
     environment {
@@ -42,7 +42,8 @@ pipeline {
                         if (changeSet.items && !changeSet.items.isEmpty()) {
                             changeSet.items.each { item ->
                                 println "Commit message: ${item.msg}"
-                                  var = "${item.msg}"
+                                  //var = "${item.msg}"
+                                   msg.append(${item.msg})
                                   //println(var)
                             }
                         } else {
@@ -78,7 +79,7 @@ pipeline {
                         ],
                         [
                             title: "CHANGELOGS",
-                            value: "${var}",
+                            value: "${msg}",
                             color: "good"
                         ],
                         [
