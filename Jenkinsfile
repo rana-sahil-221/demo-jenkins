@@ -41,7 +41,7 @@ pipeline {
                     buildInfo.changeSets.each { changeSet ->
                         if (changeSet.items && !changeSet.items.isEmpty()) {
                             changeSet.items.each { item ->
-                                //println "Commit message: ${item.msg}"
+                                println "Commit message: ${item.msg}"
                                   var = "${item.msg}"
                                   //println(var)
                             }
