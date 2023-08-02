@@ -49,15 +49,15 @@ pipeline {
                                   //var = "${item.msg}"
                                    //commit.add(item.msg)
                                   //println(var)
-                                 
+                                 def changelogFile = new File("${WORKSPACE}/changelog_commits.txt")
+                                changelogFile.write(varmsg)
                             }
                         } else {
-                            varmsg = "No commits for Build #${buildNumber}."
+                            //varmsg = "No commits for Build #${buildNumber}."
                         }
                     }
                                //commitMsg = commit.join("\n")
-                                def changelogFile = new File("${WORKSPACE}/changelog_commits.txt")
-                                changelogFile.write(varmsg)
+                                
                 } else {
                      varmsg = "No commits for Build #${buildNumber}."
                      println(varmsg)
