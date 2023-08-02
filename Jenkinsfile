@@ -95,12 +95,14 @@ pipeline {
                         ]
                     ]
                   ]]   
+           withCredentials([string(credentialsId: slackToken, variable: 'SLACK_TOKEN')]) {
            sh "curl -F \"file=@${WORKSPACE}/changelog_commits.txt\" " +
                "-F \"channels=#general\" " +
                "-F \"initial_comment=Changelog Commits for Build #${currentBuild.number}\" " +
                "-F \"filetype=text\" " +
                "https://slack.com/api/files.upload " +
-               "-H \"Authorization: Bearer xoxp-5642268089619-5639443939413-5674587321174-ef95dafecdcc0683a4262129d9e685ff\""
+               "-H \"Authorization: Bearer ${SLACK_TOKEN}\""
+           }
              }
         }
         
