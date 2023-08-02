@@ -95,7 +95,7 @@ pipeline {
                         ]
                     ]
                   ]]   
-           withCredentials([string(credentialsId: slackToken, variable: 'SLACK_TOKEN')]) {
+           withCredentials([string(credentialsId: 'slackToken', variable: 'SLACK_TOKEN')]) {
            sh "curl -F \"file=@${WORKSPACE}/changelog_commits.txt\" " +
                "-F \"channels=#general\" " +
                "-F \"initial_comment=Changelog Commits for Build #${currentBuild.number}\" " +
