@@ -49,8 +49,7 @@ pipeline {
                                   //var = "${item.msg}"
                                    //commit.add(item.msg)
                                   //println(var)
-                                 def changelogFile = new File("${WORKSPACE}/changelog_commits.txt")
-                                changelogFile.write(varmsg)
+                                 
                             }
                         } else {
                             //varmsg = "No commits for Build #${buildNumber}."
@@ -71,6 +70,8 @@ pipeline {
         success {
             script {
                //def commitMsg = getChangelog()
+                def changelogFile = new File("${WORKSPACE}/changelog_commits.txt")
+                                changelogFile.write(varmsg)
                 slackSend color: "good", message: "Deployment to K8 cluster done and artifact stored!", attachments: [[
                     color: 'good',
                     channel: '#general',
