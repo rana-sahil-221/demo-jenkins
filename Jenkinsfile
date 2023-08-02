@@ -43,7 +43,7 @@ pipeline {
                             changeSet.items.each { item ->
                                 //println "Commit message: ${item.msg}"
                                   def var = "${item.msg}"
-                                  println(var)
+                                  //println(var)
                             }
                         } else {
                             println "No commits for Build #${buildNumber}."
@@ -52,7 +52,62 @@ pipeline {
                 } else {
                     println "No commits for Build #${buildNumber}."
                 }
-            }
-        }
+        sucess {
+               //def commitMsg = getChangelog()
+            
+                slackSend color: "good", message: "Deployment to K8 cluster done and artifact stored!", attachments: [[
+                    color: 'good',
+                    channel: '#general',
+                    title: "BUILD DETAILS",
+                    fields: [
+                        [
+                            title: "User",
+                            value: "${env.BUILD_USER}",
+                            short: true
+                        ],
+                        [
+                            title: "BUILD NUMBER",
+                            value: "${currentBuild.number}",
+                            short: true
+                        ],
+                        [
+                            title: "Changelog",
+                            value: var,
+                            color: "good"
+                        ],
+                        [
+                            title: "JOB URL",
+                            value: "${env.JOB_URL}",
+                            short: true
+                        ]
+                    ]
+                  ]]   
+            
+             }
+      
+  failure {
+      slackSend (color: "danger", message: "Deployment to K8 cluster failed!", attachments: [[
+        color: 'danger',
+        title: "BUILD DETAILS",
+        fields: [[
+          title: "User",
+          value: "${env.BUILD_USER}",
+          short: true
+        ],
+        [
+          title: "BUILD NUMBER",
+          value: "${currentBuild.number}",
+          short: true
+        ],
+        [
+          title: "JOB URL",
+          value: "${env.JOB_URL}",
+          short: true
+        ]]
+      ]]
+    )
+  }
+        
     }
 }
+    }
