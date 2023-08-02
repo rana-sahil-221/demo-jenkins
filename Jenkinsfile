@@ -44,7 +44,7 @@ pipeline {
                         if (changeSet.items && !changeSet.items.isEmpty()) {
                             changeSet.items.each { item ->
                                 //println "Commit message: ${item.msg}"
-                                  varmsg += ${item.msg} + "\n"
+                                  varmsg += "${item.msg}" + "\n"
                                   println(varmsg)
                                   //var = "${item.msg}"
                                    //commit.add(item.msg)
