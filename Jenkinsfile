@@ -1,5 +1,5 @@
 import groovy.json.JsonSlurper
-
+def var = ''
 pipeline {
     agent any
     environment {
@@ -34,7 +34,7 @@ pipeline {
 
                 def jsonSlurper = new JsonSlurper()
                 def buildInfo = jsonSlurper.parseText(response.getContent())
-                def var = ''
+                
                 // Check if changeSets is not null and not empty
                 if (buildInfo.changeSets && !buildInfo.changeSets.isEmpty()) {
                     println "Changelogs for Build #${buildNumber}:"
