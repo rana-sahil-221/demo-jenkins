@@ -56,7 +56,6 @@ pipeline {
           }
     }
     }
-}
 
     post {
         sucess {
@@ -116,3 +115,4 @@ pipeline {
         )
       }
     }
+}
