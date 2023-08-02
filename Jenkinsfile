@@ -78,7 +78,7 @@ pipeline {
                         ],
                         [
                             title: "Changelog",
-                            value: var,
+                            value: $var,
                             color: "good"
                         ],
                         [
