@@ -58,7 +58,7 @@ pipeline {
     }
 
     post {
-        sucess {
+        success {
             script {
                //def commitMsg = getChangelog()
                 slackSend color: "good", message: "Deployment to K8 cluster done and artifact stored!", attachments: [[
