@@ -46,7 +46,7 @@ pipeline {
                                   //println(var)
                             }
                         } else {
-                            var = "No commits for Build #${buildNumber}."
+                            println("No commits for Build #${buildNumber}.")
                         }
                     }
                 } else {
