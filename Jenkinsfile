@@ -100,7 +100,7 @@ pipeline {
                "-F \"initial_comment=Changelog Commits for Build #${currentBuild.number}\" " +
                "-F \"filetype=text\" " +
                "https://slack.com/api/files.upload " +
-               "-H \"Authorization: Bearer AQ0BseItcKYYonCiZTUDlD1v\""
+               "-H \"Authorization: Bearer xoxb-5642268089619-5678141277365-fg10tZJa28VkyJsY06StMRSV\""
              }
         }
         
