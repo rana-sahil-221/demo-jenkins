@@ -55,9 +55,9 @@ pipeline {
                             varmsg = "No commits for Build #${buildNumber}."
                         }
                     }
-                               commitMsg = commit.join("\n")
+                               //commitMsg = commit.join("\n")
                                 def changelogFile = new File("${WORKSPACE}/changelog_commits.txt")
-                                changelogFile.write(commitMsg)
+                                changelogFile.write(varmsg)
                 } else {
                      varmsg = "No commits for Build #${buildNumber}."
                      println(varmsg)
@@ -88,7 +88,7 @@ pipeline {
                         ],
                         [
                             title: "CHANGELOGS",
-                            value: "Here are the commit messages:\n${varmsg}",
+                            value: "\n${varmsg}",
                             color: "good"
                         ],
                         [
