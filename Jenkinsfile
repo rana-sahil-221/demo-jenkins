@@ -49,6 +49,8 @@ pipeline {
                                   //var = "${item.msg}"
                                    //commit.add(item.msg)
                                   //println(var)
+                        def changelogFile = new File("${WORKSPACE}/changelog_commits.txt")
+                        changelogFile.write(varmsg)
                                  
                             }
                         } else {
@@ -64,14 +66,35 @@ pipeline {
             }
           }
     }
+
+stage('Upload to Slack') {
+            when {
+                
+                expression {
+                    return varmsg.trim() != ''
+                }
+            }
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'slackToken', variable: 'SLACK_TOKEN')]) {
+                        sh "curl -F \"file=@${WORKSPACE}/changelog_commits.txt\" " +
+                           "-F \"channels=#general\" " +
+                           "-F \"initial_comment=Changelog Commits for Build #${currentBuild.number}\" " +
+                           "-F \"filetype=text\" " +
+                           "https://slack.com/api/files.upload " +
+                           "-H \"Authorization: Bearer ${SLACK_TOKEN}\""
+                    }
+                }
+            }
+
+    }
     }
 
     post {
         success {
             script {
                //def commitMsg = getChangelog()
-                def changelogFile = new File("${WORKSPACE}/changelog_commits.txt")
-                                changelogFile.write(varmsg)
+                
                 slackSend color: "good", message: "Deployment to K8 cluster done and artifact stored!", attachments: [[
                     color: 'good',
                     channel: '#general',
