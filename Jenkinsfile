@@ -51,7 +51,7 @@ pipeline {
                         }
                     }
                 } else {
-                     var = "No commits for Build #${buildNumber}."
+                     msg.append("No commits for Build #${buildNumber}.")
                 }
             }
           }
