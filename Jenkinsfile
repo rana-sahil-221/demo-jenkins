@@ -43,9 +43,11 @@ pipeline {
                     buildInfo.changeSets.each { changeSet ->
                         if (changeSet.items && !changeSet.items.isEmpty()) {
                             changeSet.items.each { item ->
-                                println "Commit message: ${item.msg}"
+                                //println "Commit message: ${item.msg}"
+                                  varmsg += item.msg + "\n"
+                                  println(varmsg)
                                   //var = "${item.msg}"
-                                   commit.add(item.msg)
+                                   //commit.add(item.msg)
                                   //println(var)
                                  
                             }
@@ -86,7 +88,7 @@ pipeline {
                         ],
                         [
                             title: "CHANGELOGS",
-                            value: "Here are the commit messages:\n${commitMsg}",
+                            value: "Here are the commit messages:\n${varmsg}",
                             color: "good"
                         ],
                         [
