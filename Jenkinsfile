@@ -129,10 +129,6 @@ pipeline {
               short: true
             ],
             [
-              title: "CHANGELOGS",
-              value: "${varmsg}",
-            ],
-            [
               title: "JOB URL",
               value: "${env.JOB_URL}",
               short: true
